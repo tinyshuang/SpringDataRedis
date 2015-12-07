@@ -1,0 +1,8 @@
+*.class
+.settings
+.project
+.classpath
+build/
+target/
+META-INF/
+*.MF
