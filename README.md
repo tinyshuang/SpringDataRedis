@@ -17,3 +17,7 @@
  * 添加的调用链接 :	http://localhost:8080/SpringDataRedis/jsp/index.jsp
  * 获取时的链接     : http://localhost:8080/SpringDataRedis/getUser.do?name=tinys
  * 删除时的链接     : http://localhost:8080/SpringDataRedis/delUser.do?name=tinys
+
+
+-------------------
+添加了tx的支持
