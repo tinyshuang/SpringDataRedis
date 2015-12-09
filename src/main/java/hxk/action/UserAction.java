@@ -19,6 +19,7 @@ public class UserAction {
     @Resource
     private RedisTemplate<String, Object> template;
     
+    
     @RequestMapping("/set")
     public @ResponseBody String set(){
 	User user = User.createUser();
@@ -32,4 +33,6 @@ public class UserAction {
 	System.out.println(user);
 	return "ok";
     }
+    
+    
 }
