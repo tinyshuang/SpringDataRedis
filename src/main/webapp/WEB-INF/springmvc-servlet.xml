@@ -29,6 +29,66 @@
    			<property name="host-name" value="127.0.0.1"></property>
    			<property name="port" value="6379"></property>
    		</bean>
+   		
+   		-配置备机的配置
+   		<bean id="sentinelConfig" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+	        <constructor-arg name="master" value="mymaster" />
+	        <constructor-arg name="sentinelHostAndPorts">
+	            <set>
+	                <value>192.168.88.153:26379</value>
+	                <value>192.168.88.153:26380</value>
+	                <value>192.168.88.153:26382</value>
+	            </set>
+	        </constructor-arg>
+    </bean>
+    
+    -配置主从的 这个未测试
+		    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+		        <property name="maxTotal" value="${im.hs.server.redis.maxTotal}" />  
+		        <property name="minIdle" value="${im.hs.server.redis.minIdle}" />  
+		        <property name="maxWaitMillis" value="${im.hs.server.redis.maxWaitTime}" />  
+		        <property name="maxIdle" value="${im.hs.server.redis.maxIdle}" />  
+		        <property name="testOnBorrow" value="${im.hs.server.redis.testOnBorrow}" />  
+		        <property name="testOnReturn" value="true" />  
+		        <property name="testWhileIdle" value="true" />  
+		    </bean>  
+		  
+		    <bean id="sentinelConfiguration"  
+		        class="org.springframework.data.redis.connection.RedisSentinelConfiguration">  
+		        <property name="master">  
+		            <bean class="org.springframework.data.redis.connection.RedisNode">  
+		                <property name="name" value="${im.hs.server.redis.sentinel.masterName}"></property>  
+		            </bean>  
+		        </property>  
+		        <property name="sentinels">  
+		            <set>  
+		                <bean class="org.springframework.data.redis.connection.RedisNode">  
+		                    <constructor-arg name="host"  
+		                        value="${im.hs.server.redis.sentinel1.host}"></constructor-arg>  
+		                    <constructor-arg name="port"  
+		                        value="${im.hs.server.redis.sentinel1.port}"></constructor-arg>  
+		                </bean>  
+		                <bean class="org.springframework.data.redis.connection.RedisNode">  
+		                    <constructor-arg name="host"  
+		                        value="${im.hs.server.redis.sentinel2.host}"></constructor-arg>  
+		                    <constructor-arg name="port"  
+		                        value="${im.hs.server.redis.sentinel2.port}"></constructor-arg>  
+		                </bean>  
+		            </set>  
+		        </property>  
+		    </bean>  
+		  
+		    <bean id="connectionFactory"  
+		        class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:password="${im.hs.server.redis.sentinel.password}">  
+		        <constructor-arg name="sentinelConfig" ref="sentinelConfiguration"></constructor-arg>  
+		        <constructor-arg name="poolConfig" ref="poolConfig"></constructor-arg>  
+		    </bean>  
+		  
+		    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
+		        <property name="connectionFactory" ref="connectionFactory" />  
+		    </bean>  
+		    
+		    
    	-->
    	
    	<!-- ====================设置redis连接相关Begin======================================================== -->
